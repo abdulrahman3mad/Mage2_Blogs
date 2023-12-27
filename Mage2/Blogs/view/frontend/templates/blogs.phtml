@@ -1,0 +1,26 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block  */
+/** @var \Mage2\Blogs\Model\ResourceModel\Blog\Collection $blogsCollection */
+/** @var \Magento\Theme\Block\Html\Pager $pager */
+/** @var \Mage2\Blogs\Model\Blog $blog */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Mage2\Blogs\ViewModel\Blogs $blogsViewModel */
+
+$blogsViewModel = $block->getData("blogsViewModel");
+$blogsCollection = $blogsViewModel->getBlogs(2);
+$pager = $block->getChildBlock("pager_block");
+$blogBlock = $block->getChildBlock("blog_block");
+
+?>
+
+<?php if($blogsCollection->count()): ?>
+    <?php foreach ($blogsCollection->getItems() as $blog): ?>
+        <?= $blogsViewModel->prepareBlog($blogBlock, $blog) ?>
+    <?php endforeach; ?>
+    <?php if($pager): ?>
+        <?= $blogsViewModel->preparePager($blogsCollection, $pager); ?>
+    <?php endif ?>
+<?php else: ?>
+    <p><?= $escaper->escapeHtml(__("There are no blogs"))?></p>
+<?php endif ?>
+

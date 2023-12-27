@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mage2_blogs_grid_listing.mage2_blogs_data_source</item>
+            <item name="deps" xsi:type="string">mage2_blogs_grid_listing.mage2_blogs_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">mage2_blogs_columns</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="mage2_blogs/blog/newAction"/>
+                <class>primary</class>
+                <label translate="true">Add New Blog</label>
+            </button>
+        </buttons>
+        <deps>
+            <dep>mage2_blogs_grid_listing.mage2_blogs_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="mage2_blogs_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">blog_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"></updateUrl>
+        </settings>
+        <dataProvider name="mage2_blogs_data_source" class="Magento\Cms\Ui\Component\DataProvider">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>blog_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks" />
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="data" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">mage2_blogs_grid_listing.mage2_blogs_grid_listing.mage2_blogs_columns.ids</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">blog_id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="mage2_blogs/blog/massDelete" />
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you want to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="edit">
+                <settings>
+                    <callback>
+                        <target>editSelected</target>
+                        <provider>mage2_blogs_grid_listing.mage2_blogs_grid_listing.mage2_blogs_grid_columns_editor</provider>
+                    </callback>
+                    <type>edit</type>
+                    <label translate="true">Edit</label>
+                </settings>
+            </action>
+        </massaction>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+        <paging name="listing_paging" />
+    </listingToolbar>
+    <columns name="mage2_blogs_columns">
+        <settings>
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="mage2_blogs/blog/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">blog_id</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">mage2_blogs_grid_listing.mage2_blogs_grid_listing.mage2_blogs_grid_columns.ids</param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">mage2_blogs_grid_listing.mage2_blogs_grid_listing.mage2_blogs_grid_columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids" sortOrder="1">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">blog_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="blog_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Blog Id</label>
+            </settings>
+        </column>
+        <column name="title">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Title</label>
+            </settings>
+        </column>
+        <column name="identifier">
+            <settings>
+                <filter>text</filter>
+                <editor>
+                    <validation>
+                        <rule name="validate-identifier" xsi:type="boolean">true</rule>
+                    </validation>
+                    <editorType>text</editorType>
+                </editor>
+                <label translate="true">URL Key</label>
+            </settings>
+        </column>
+         <column name="meta_description">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Meta Description</label>
+            </settings>
+        </column>
+        <column name="meta_keywords">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Meta Keywords</label>
+            </settings>
+        </column>
+        <column name="creation_time">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Creation Time</label>
+            </settings>
+        </column>
+        <column name="update_time">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Updated Time</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Mage2\Blogs\Ui\Component\Listing\Column\PageActions">
+            <settings>
+                <indexField>blog_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

@@ -1,0 +1,28 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block  */
+/** @var \Mage2\Blogs\Model\Blog $blog */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Mage2\Blogs\ViewModel\Blog $blogViewModel */
+
+$blogViewModel = $block->getData("blogViewModel");
+$blog = $block->getData("blog");
+?>
+
+<article class="blog">
+    <a href="<?= $escaper->escapeUrl($blogViewModel->getBlogUrl($blog)) ?>" alt="<?= $blog->getTitle() ?>">
+        <h3><?= $escaper->escapeHtml(__($blog->getTitle())) ?></h3>
+        <?php if ($blog->getFeaturedImage()): ?>
+            <img src="<?= $escaper->escapeUrl($blog->getFeaturedImage()) ?>" loading="lazy"
+                 alt="<?= $escaper->escapeHtmlAttr(__($blog->getTitle())) ?>"/>
+        <?php endif ?>
+    </a>
+
+    <div class="blog-info">
+        <span class="blog-publisher"><?=$escaper->escapeHtml((__("Abdulrahman Emad")))?></span>
+        <span class="blog-publishing-date"><?=$escaper->escapeHtml(__($blog->getCreationTime()))?></span>
+    </div>
+
+    <p class="blog-content">
+        <?= $escaper->escapeHtml(__($blog->getContent())) ?>
+    </p>
+</article>

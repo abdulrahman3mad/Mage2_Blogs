@@ -1,0 +1,17 @@
+{
+    "mage2_blogs": {
+        "column": {
+            "blog_id": true,
+            "title": true,
+            "content": true,
+            "meta_keywords": true,
+            "meta_description": true,
+            "meta_title": true,
+            "creation_time": true,
+            "update_time": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
